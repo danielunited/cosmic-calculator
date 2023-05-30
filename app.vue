@@ -42,11 +42,10 @@ function calculateEvent() {
   const eventYearsAgo = events.find((event) => event.name === selectedEvent.value).yearsAgo;
   const universeAgeInBillionYears = 13.8; // Approximate age of the Universe
   const universeAgeInYears = universeAgeInBillionYears * Math.pow(10, 9); // Convert to years
-  const eachYearInUserLifeRepresents = universeAgeInYears / age.value; // Each year of user's life in cosmic years
-  const eventCosmicYearsAgo = eventYearsAgo / eachYearInUserLifeRepresents; // Event in cosmic years
-  const eventUserLifeYearsAgo = eventCosmicYearsAgo * age.value; // Convert back to user's lifespan
-  const eventUserLifeMinutesAgo = eventUserLifeYearsAgo * 525600; // Convert to minutes
+  const eventRatio = eventYearsAgo / universeAgeInYears; // Proportion of the universe's age
+  const equivalentAgeInYears = age.value * eventRatio; // Equivalent age in user's lifespan
+  const equivalentAgeInDays = equivalentAgeInYears * 365; // Convert to days
 
-  message.value = `If your age were equivalent to the age of the Universe, the '${selectedEvent.value}' event would have occurred about ${eventUserLifeMinutesAgo.toFixed(2)} minutes ago.`;
+  message.value = `If your age were equivalent to the age of the Universe, the '${selectedEvent.value}' event would have occurred about ${equivalentAgeInDays.toFixed(2)} days ago.`;
 }
 </script>
