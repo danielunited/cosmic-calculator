@@ -2,37 +2,39 @@
   <div class="flex flex-col items-center justify-center min-h-screen text-gray-700 bg-gray-50">
     <div class="max-w-lg p-5">
       <h1 class="mb-4 text-3xl font-light">Universe Age Calculator</h1>
-      <p class="mb-4 text-lg">Enter your age and choose an event to find out when it happened in terms of your lifespan if it were equivalent to the age of the Universe.</p>
+      <p class="mb-4 text-lg">Enter your date of birth and choose an event to find out when it happened in terms of your lifespan if it were equivalent to the age of the Universe.</p>
 
-      <div class="w-64">
-        <label for="age" class="block mb-1 text-sm font-medium text-gray-700">Your age in years</label>
-        <input
-          id="age"
-          v-model="age"
-          type="number"
-          min="0"
-          placeholder="Enter your age"
-          class="w-full px-3 py-2 leading-tight text-gray-700 bg-white border border-gray-300 rounded appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-      </div>
+      <form @submit.prevent="calculateEvent">
+        <div class="w-64">
+          <label for="dob" class="block mb-1 text-sm font-medium text-gray-700">Your date of birth</label>
+          <input
+            id="dob"
+            v-model="dob"
+            type="date"
+            required
+            class="w-full px-3 py-2 leading-tight text-gray-700 bg-white border border-gray-300 rounded appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
 
-      <div class="w-64 mt-4">
-        <label for="event" class="block mb-1 text-sm font-medium text-gray-700">Choose an event</label>
-        <select
-          id="event"
-          v-model="selectedEvent"
-          class="w-full px-3 py-2 leading-tight text-gray-700 bg-white border border-gray-300 rounded appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500"
-        >
-          <option disabled value="">Please select an event</option>
-          <option v-for="event in events" :key="event.name">{{ event.name }}</option>
-        </select>
-      </div>
+        <div class="w-64 mt-4">
+          <label for="event" class="block mb-1 text-sm font-medium text-gray-700">Choose an event</label>
+          <select
+            id="event"
+            v-model="selectedEvent"
+            required
+            class="w-full px-3 py-2 leading-tight text-gray-700 bg-white border border-gray-300 rounded appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option disabled value="">Please select an event</option>
+            <option v-for="event in events" :key="event.name">{{ event.name }}</option>
+          </select>
+        </div>
 
-      <button class="px-4 py-2 mt-4 font-bold text-white bg-blue-500 rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-700" @click="calculateEvent">
-        Calculate
-      </button>
+        <button class="px-4 py-2 mt-4 font-bold text-white bg-blue-500 rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-700" type="submit">
+          Calculate
+        </button>
 
-      <p class="mt-4 text-lg font-medium" v-if="message">{{ message }}</p>
+        <p class="mt-4 text-lg font-medium" v-if="message">{{ message }}</p>
+      </form>
     </div>
   </div>
 </template>
@@ -61,9 +63,18 @@ const events = [
 ];
 
 function calculateEvent() {
+  const dobValue = new Date(dob.value);
+  const today = new Date();
+  let age = today.getFullYear() - dobValue.getFullYear();
+  const monthDifference = today.getMonth() - dobValue.getMonth();
+
+  if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < dobValue.getDate())) {
+    age--;
+  }
+
   const universeAgeInYears = 13.8 * Math.pow(10, 9);
   const eventYearsAgo = events.find((event) => event.name === selectedEvent.value).yearsAgo;
-  const equivalentAgeInSeconds = ((age.value * eventYearsAgo) / universeAgeInYears) * 31556952;
+  const equivalentAgeInSeconds = ((age * eventYearsAgo) / universeAgeInYears) * 31556952;
 
   const timeUnits = ["years", "months", "days", "hours", "minutes", "seconds"];
   const timeConversions = [31556952, 2629746, 86400, 3600, 60, 1];
@@ -75,7 +86,7 @@ function calculateEvent() {
       primaryUnit = timeUnits[i];
       primaryValue = Math.floor(equivalentAgeInSeconds / timeConversions[i]);
 
-      if (i + 1 < timeConversions.length) {
+      if (i + 1 < timeConversions.length && equivalentAgeInSeconds % timeConversions[i] !== 0) {
         secondaryUnit = timeUnits[i + 1];
         secondaryValue = Math.floor((equivalentAgeInSeconds % timeConversions[i]) / timeConversions[i + 1]);
       } else {
@@ -87,9 +98,9 @@ function calculateEvent() {
   }
 
   if (secondaryValue) {
-    message.value = `If your age were equivalent to the age of the Universe, the '${selectedEvent.value}' event would have occurred ${primaryValue} ${primaryUnit} and ${secondaryValue} ${secondaryUnit} ago.`;
+    message.value = `If your age were equivalent to the age of the Universe, the '${selectedEvent.value}' would have occurred ${primaryValue} ${primaryUnit} and ${secondaryValue} ${secondaryUnit} ago.`;
   } else {
-    message.value = `If your age were equivalent to the age of the Universe, the '${selectedEvent.value}' event would have occurred ${primaryValue} ${primaryUnit} ago.`;
+    message.value = `If your age were equivalent to the age of the Universe, the '${selectedEvent.value}' would have occurred ${primaryValue} ${primaryUnit} ago.`;
   }
 }
 </script>
