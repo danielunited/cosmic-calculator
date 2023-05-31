@@ -62,10 +62,9 @@ const events = [
   { name: "Discovery of fire", yearsAgo: 125000 },
   { name: "Agricultural revolution", yearsAgo: 12000 },
   { name: "Invention of the wheel", yearsAgo: currentYear + 5200 },
-  { name: "Founding of the Roman Empire", yearsAgo: currentYear - 27 },
+  { name: "Founding of the Roman Empire", yearsAgo: currentYear + 27 },
   { name: "Birth of Jesus Christ", yearsAgo: currentYear + 4 },
   { name: "Fall of the Roman Empire", yearsAgo: currentYear - 476 },
-  // { name: "Discovery of Earth's orbit around the Sun", yearsAgo: currentYear - 1543 },
   { name: "Industrial revolution", yearsAgo: currentYear - 1760 },
   { name: "Moon landing", yearsAgo: currentYear - 1969 },
 ];
