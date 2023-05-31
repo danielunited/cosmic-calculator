@@ -12,7 +12,7 @@
             v-model="dob"
             type="date"
             :min="'1900-01-01'"
-            :max="`${currentYear}-12-31`"
+            :max="currentDateString"
             required
             class="w-full px-3 py-2 leading-tight text-gray-700 bg-white border border-gray-300 rounded appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
@@ -42,11 +42,15 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, computed } from "vue";
 
 const dob = ref("");
 const selectedEvent = ref("");
 const message = ref("");
+
+const today = new Date();
+const currentYear = today.getFullYear();
+const currentDateString = computed(() => `${currentYear}-${("0" + (today.getMonth() + 1)).slice(-2)}-${("0" + today.getDate()).slice(-2)}`);
 
 const events = [
   { name: "Creation of the first galaxies", year: -13000000000 },
@@ -72,8 +76,7 @@ const events = [
 
 function calculateEvent() {
   const dobValue = new Date(dob.value);
-  const today = new Date();
-  let age = today.getFullYear() - dobValue.getFullYear();
+  let age = currentYear - dobValue.getFullYear();
   const monthDifference = today.getMonth() - dobValue.getMonth();
 
   if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < dobValue.getDate())) {
@@ -82,7 +85,7 @@ function calculateEvent() {
 
   const universeAgeInYears = 13.8 * Math.pow(10, 9);
   const eventYear = events.find((event) => event.name === selectedEvent.value).year;
-  const eventYearsAgo = today.getFullYear() - eventYear;
+  const eventYearsAgo = currentYear - eventYear;
   const equivalentAgeInSeconds = ((age * eventYearsAgo) / universeAgeInYears) * 31556952;
 
   const timeUnits = ["years", "months", "days", "hours", "minutes", "seconds"];
@@ -110,7 +113,7 @@ function calculateEvent() {
     }
   }
 
-  if (eventYear > 0) {
+  if (eventYear > currentYear) {
     if (secondaryValue) {
       message.value = `If your age were equivalent to the age of the Universe, the ${
         selectedEvent.value.charAt(0).toLowerCase() + selectedEvent.value.slice(1)
