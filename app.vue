@@ -11,6 +11,8 @@
             id="dob"
             v-model="dob"
             type="date"
+            :min="'1900-01-01'"
+            :max="`${currentYear}-12-31`"
             required
             class="w-full px-3 py-2 leading-tight text-gray-700 bg-white border border-gray-300 rounded appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
@@ -33,7 +35,7 @@
           Calculate
         </button>
 
-        <p class="mt-4 text-lg font-medium" v-if="message">{{ message }}</p>
+        <div class="mt-4 text-lg" v-if="message" v-html="message"></div>
       </form>
     </div>
   </div>
@@ -98,9 +100,13 @@ function calculateEvent() {
   }
 
   if (secondaryValue) {
-    message.value = `If your age were equivalent to the age of the Universe, the '${selectedEvent.value}' would have occurred ${primaryValue} ${primaryUnit} and ${secondaryValue} ${secondaryUnit} ago.`;
+    message.value = `If your age were equivalent to the age of the Universe, the ${
+      selectedEvent.value.charAt(0).toLowerCase() + selectedEvent.value.slice(1)
+    } would have occurred <br/> <span class="font-semibold text-black">${primaryValue} ${primaryUnit} and ${secondaryValue} ${secondaryUnit} ago.</span>`;
   } else {
-    message.value = `If your age were equivalent to the age of the Universe, the '${selectedEvent.value}' would have occurred ${primaryValue} ${primaryUnit} ago.`;
+    message.value = `If your age were equivalent to the age of the Universe, the ${
+      selectedEvent.value.charAt(0).toLowerCase() + selectedEvent.value.slice(1)
+    } would have occurred <br/> <span class="font-semibold text-black">${primaryValue} ${primaryUnit} ago.</span>`;
   }
 }
 </script>
