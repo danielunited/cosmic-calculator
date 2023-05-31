@@ -57,6 +57,7 @@ const events = [
   { name: "Emergence of first life on Earth", yearsAgo: 3800000000 },
   { name: "Appearance of the dinosaurs", yearsAgo: 230000000 },
   { name: "Extinction of the dinosaurs", yearsAgo: 66000000 },
+  { name: "Emergence of Sahelanthropus", yearsAgo: 7000000 },
   { name: "Emergence of Homo Sapiens", yearsAgo: 300000 },
   { name: "Discovery of fire", yearsAgo: 125000 },
   { name: "Agricultural revolution", yearsAgo: 12000 },
