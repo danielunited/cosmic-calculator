@@ -93,6 +93,10 @@ function calculateEvent() {
       primaryUnit = timeUnits[i];
       primaryValue = Math.floor(equivalentAgeInSeconds / timeConversions[i]);
 
+      if (primaryUnit === "seconds" && primaryValue < 30) {
+        primaryValue = (equivalentAgeInSeconds / timeConversions[i]).toFixed(2);
+      }
+
       if (i + 1 < timeConversions.length && equivalentAgeInSeconds % timeConversions[i] !== 0) {
         secondaryUnit = timeUnits[i + 1];
         secondaryValue = Math.floor((equivalentAgeInSeconds % timeConversions[i]) / timeConversions[i + 1]);
