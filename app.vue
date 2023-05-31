@@ -44,29 +44,30 @@
 <script setup>
 import { ref } from "vue";
 
-const age = ref("");
+const dob = ref("");
 const selectedEvent = ref("");
 const message = ref("");
 
-const currentYear = new Date().getFullYear();
-
 const events = [
-  { name: "Creation of the first galaxies", yearsAgo: 13000000000 },
-  { name: "Formation of the Milky Way", yearsAgo: 10000000000 },
-  { name: "Formation of the Earth", yearsAgo: 4500000000 },
-  { name: "Emergence of first life on Earth", yearsAgo: 3800000000 },
-  { name: "Appearance of the dinosaurs", yearsAgo: 230000000 },
-  { name: "Extinction of the dinosaurs", yearsAgo: 66000000 },
-  { name: "Emergence of Sahelanthropus", yearsAgo: 7000000 },
-  { name: "Emergence of Homo Sapiens", yearsAgo: 300000 },
-  { name: "Discovery of fire", yearsAgo: 125000 },
-  { name: "Agricultural revolution", yearsAgo: 12000 },
-  { name: "Invention of the wheel", yearsAgo: currentYear + 5200 },
-  { name: "Founding of the Roman Empire", yearsAgo: currentYear + 27 },
-  { name: "Birth of Jesus Christ", yearsAgo: currentYear + 4 },
-  { name: "Fall of the Roman Empire", yearsAgo: currentYear - 476 },
-  { name: "Industrial revolution", yearsAgo: currentYear - 1760 },
-  { name: "Moon landing", yearsAgo: currentYear - 1969 },
+  { name: "Creation of the first galaxies", year: -13000000000 },
+  { name: "Formation of the Milky Way", year: -10000000000 },
+  { name: "Formation of the Earth", year: -4500000000 },
+  { name: "Emergence of first life on Earth", year: -3800000000 },
+  { name: "Appearance of the dinosaurs", year: -230000000 },
+  { name: "Extinction of the dinosaurs", year: -66000000 },
+  { name: "Emergence of Sahelanthropus", year: -7000000 },
+  { name: "Emergence of Homo Sapiens", year: -300000 },
+  { name: "Discovery of fire", year: -125000 },
+  { name: "Agricultural revolution", year: -12000 },
+  { name: "Invention of the wheel", year: -5200 },
+  { name: "Founding of the Roman Empire", year: -27 },
+  { name: "Birth of Jesus Christ", year: 0 },
+  { name: "Fall of the Roman Empire", year: 476 },
+  { name: "Industrial revolution", year: 1760 },
+  { name: "Moon landing", year: 1969 },
+  { name: "Sun becomes a Red Giant", year: 5000000000 },
+  { name: "Death of the Earth", year: 7500000000 },
+  { name: "Milky Way merges with Andromeda", year: 4500000000 },
 ];
 
 function calculateEvent() {
@@ -80,7 +81,8 @@ function calculateEvent() {
   }
 
   const universeAgeInYears = 13.8 * Math.pow(10, 9);
-  const eventYearsAgo = events.find((event) => event.name === selectedEvent.value).yearsAgo;
+  const eventYear = events.find((event) => event.name === selectedEvent.value).year;
+  const eventYearsAgo = today.getFullYear() - eventYear;
   const equivalentAgeInSeconds = ((age * eventYearsAgo) / universeAgeInYears) * 31556952;
 
   const timeUnits = ["years", "months", "days", "hours", "minutes", "seconds"];
@@ -89,17 +91,17 @@ function calculateEvent() {
   let primaryUnit, primaryValue, secondaryUnit, secondaryValue;
 
   for (let i = 0; i < timeConversions.length; i++) {
-    if (equivalentAgeInSeconds >= timeConversions[i]) {
+    if (Math.abs(equivalentAgeInSeconds) >= timeConversions[i]) {
       primaryUnit = timeUnits[i];
-      primaryValue = Math.floor(equivalentAgeInSeconds / timeConversions[i]);
+      primaryValue = Math.floor(Math.abs(equivalentAgeInSeconds) / timeConversions[i]);
 
       if (primaryUnit === "seconds" && primaryValue < 30) {
-        primaryValue = (equivalentAgeInSeconds / timeConversions[i]).toFixed(2);
+        primaryValue = (Math.abs(equivalentAgeInSeconds) / timeConversions[i]).toFixed(2);
       }
 
-      if (i + 1 < timeConversions.length && equivalentAgeInSeconds % timeConversions[i] !== 0) {
+      if (i + 1 < timeConversions.length && Math.abs(equivalentAgeInSeconds) % timeConversions[i] !== 0) {
         secondaryUnit = timeUnits[i + 1];
-        secondaryValue = Math.floor((equivalentAgeInSeconds % timeConversions[i]) / timeConversions[i + 1]);
+        secondaryValue = Math.floor((Math.abs(equivalentAgeInSeconds) % timeConversions[i]) / timeConversions[i + 1]);
       } else {
         break;
       }
@@ -108,14 +110,26 @@ function calculateEvent() {
     }
   }
 
-  if (secondaryValue) {
-    message.value = `If your age were equivalent to the age of the Universe, the ${
-      selectedEvent.value.charAt(0).toLowerCase() + selectedEvent.value.slice(1)
-    } would have occurred <br/> <span class="font-semibold text-black">${primaryValue} ${primaryUnit} and ${secondaryValue} ${secondaryUnit} ago.</span>`;
+  if (eventYear > 0) {
+    if (secondaryValue) {
+      message.value = `If your age were equivalent to the age of the Universe, the ${
+        selectedEvent.value.charAt(0).toLowerCase() + selectedEvent.value.slice(1)
+      } would occur <br/> <span class="font-semibold text-black">in ${primaryValue} ${primaryUnit} and ${secondaryValue} ${secondaryUnit}.</span>`;
+    } else {
+      message.value = `If your age were equivalent to the age of the Universe, the ${
+        selectedEvent.value.charAt(0).toLowerCase() + selectedEvent.value.slice(1)
+      } would occur <br/> <span class="font-semibold text-black">in ${primaryValue} ${primaryUnit}.</span>`;
+    }
   } else {
-    message.value = `If your age were equivalent to the age of the Universe, the ${
-      selectedEvent.value.charAt(0).toLowerCase() + selectedEvent.value.slice(1)
-    } would have occurred <br/> <span class="font-semibold text-black">${primaryValue} ${primaryUnit} ago.</span>`;
+    if (secondaryValue) {
+      message.value = `If your age were equivalent to the age of the Universe, the ${
+        selectedEvent.value.charAt(0).toLowerCase() + selectedEvent.value.slice(1)
+      } would have occurred <br/> <span class="font-semibold text-black">${primaryValue} ${primaryUnit} and ${secondaryValue} ${secondaryUnit} ago.</span>`;
+    } else {
+      message.value = `If your age were equivalent to the age of the Universe, the ${
+        selectedEvent.value.charAt(0).toLowerCase() + selectedEvent.value.slice(1)
+      } would have occurred <br/> <span class="font-semibold text-black">${primaryValue} ${primaryUnit} ago.</span>`;
+    }
   }
 }
 </script>
