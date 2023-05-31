@@ -59,6 +59,7 @@ const events = [
   { name: "Extinction of the dinosaurs", yearsAgo: 66000000 },
   { name: "Emergence of Homo Sapiens", yearsAgo: 300000 },
   { name: "Discovery of fire", yearsAgo: 125000 },
+  { name: "Invention of the wheel", yearsAgo: 5500 },
   { name: "Founding of the Roman Empire", yearsAgo: currentYear - 27 },
   { name: "Year zero (Birth of Jesus Christ)", yearsAgo: currentYear },
   { name: "Fall of the Roman Empire", yearsAgo: currentYear - 476 },
