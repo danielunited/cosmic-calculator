@@ -12,7 +12,7 @@
             v-model="dob"
             type="date"
             :min="'1900-01-01'"
-            :max="currentDateString"
+            :max="`${currentYear}-01-01`"
             required
             class="w-full px-3 py-2 leading-tight text-gray-700 bg-white border border-gray-300 rounded appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
@@ -42,7 +42,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { ref } from "vue";
 
 const dob = ref("");
 const selectedEvent = ref("");
@@ -50,7 +50,6 @@ const message = ref("");
 
 const today = new Date();
 const currentYear = today.getFullYear();
-const currentDateString = computed(() => `${currentYear}-${("0" + (today.getMonth() + 1)).slice(-2)}-${("0" + today.getDate()).slice(-2)}`);
 
 const events = [
   { name: "Creation of the first galaxies", year: -13000000000 },
@@ -98,7 +97,7 @@ function calculateEvent() {
       primaryUnit = timeUnits[i];
       primaryValue = Math.floor(Math.abs(equivalentAgeInSeconds) / timeConversions[i]);
 
-      if (primaryUnit === "seconds" && primaryValue < 30) {
+      if (primaryUnit === "seconds" && primaryValue < 10) {
         primaryValue = (Math.abs(equivalentAgeInSeconds) / timeConversions[i]).toFixed(2);
       }
 
