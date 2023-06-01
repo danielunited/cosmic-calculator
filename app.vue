@@ -1,37 +1,53 @@
 <template>
-  <div class="flex flex-col items-center justify-center min-h-screen text-gray-700 bg-gray-50">
-    <div class="max-w-lg p-5">
-      <h1 class="mb-4 text-3xl font-light">Universe to human years</h1>
-      <p class="mb-4 text-lg">Map cosmic timescales onto your lifespan. Enter your birth date, pick an event, and visualize when it would occur in your universe-age life.</p>
+  <div class="flex flex-col items-center justify-center min-h-screen text-gray-700 bg-gray-100">
+    <div class="absolute inset-x-0 top-0 z-20 flex justify-center overflow-hidden pointer-events-none">
+      <!-- <div class="w-[108rem] flex-none flex justify-end">
+        <picture
+          ><source srcset="https://tailwindcss.com/_next/static/media/docs@30.8b9a76a2.avif" type="image/avif" />
+          <img src="https://tailwindcss.com/_next/static/media/docs@30.8b9a76a2.avif" alt="" class="w-[71.75rem] flex-none max-w-none dark:hidden" decoding="async" /></picture
+        ><picture
+          ><source srcset="https://tailwindcss.com/_next/static/media/docs@tinypng.d9e4dcdc.png" type="image/avif" />
+          <img src="https://tailwindcss.com/_next/static/media/docs@tinypng.d9e4dcdc.png" alt="" class="w-[90rem] flex-none max-w-none hidden dark:block" decoding="async"
+        /></picture>
+      </div> -->
+    </div>
+    <div class="max-w-xl p-5 text-center">
+      <h1 class="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">The universe in human years</h1>
+      <p class="mt-6 text-lg leading-8 text-gray-600">Map cosmic timescales onto your lifespan. Enter your birth date, pick an event, and visualize when it would occur in your universe-age life.</p>
 
       <form @submit.prevent="calculateEvent">
-        <div class="w-64">
-          <label for="dob" class="block mb-1 text-sm font-medium text-gray-700">Your date of birth</label>
-          <input
-            id="dob"
-            v-model="dob"
-            type="date"
-            :min="'1900-01-01'"
-            :max="`${currentYear}-01-01`"
-            required
-            class="w-full px-3 py-2 leading-tight text-gray-700 bg-white border border-gray-300 rounded appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
+        <div class="flex flex-col gap-4 my-4 text-left sm:flex-row">
+          <div class="w-full">
+            <label for="dob" class="block text-sm font-medium leading-6 text-gray-900">Your date of birth</label>
+            <input
+              id="dob"
+              v-model="dob"
+              type="date"
+              :min="'1900-01-01'"
+              :max="`${currentYear}-01-01`"
+              required
+              class="block w-full h-10 px-3 py-2 text-gray-900 border-0 rounded-md ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            />
+          </div>
+
+          <div class="w-full">
+            <label for="event" class="block text-sm font-medium leading-6 text-gray-900">Choose an event</label>
+            <select
+              id="event"
+              v-model="selectedEvent"
+              required
+              class="block w-full h-10 px-3 py-2 text-gray-900 border-0 rounded-md ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            >
+              <option disabled value="">Please select an event</option>
+              <option v-for="event in events" :key="event.name">{{ event.name }}</option>
+            </select>
+          </div>
         </div>
 
-        <div class="w-64 mt-4">
-          <label for="event" class="block mb-1 text-sm font-medium text-gray-700">Choose an event</label>
-          <select
-            id="event"
-            v-model="selectedEvent"
-            required
-            class="w-full px-3 py-2 leading-tight text-gray-700 bg-white border border-gray-300 rounded appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            <option disabled value="">Please select an event</option>
-            <option v-for="event in events" :key="event.name">{{ event.name }}</option>
-          </select>
-        </div>
-
-        <button class="px-4 py-2 mt-4 font-bold text-white bg-blue-500 rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-700" type="submit">
+        <button
+          class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          type="submit"
+        >
           Calculate
         </button>
 
