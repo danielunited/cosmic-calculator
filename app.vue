@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col items-center justify-center min-h-screen text-gray-700 bg-gray-50">
     <div class="max-w-lg p-5">
-      <h1 class="mb-4 text-3xl font-light">Universe to human years</h1>
+      <h1 class="mb-4 text-3xl font-light">Cosmic to human years</h1>
       <p class="mb-4 text-lg">Map cosmic timescales onto your lifespan. Enter your birth date, pick an event, and visualize when it would occur in your universe-age life.</p>
 
       <form @submit.prevent="calculateEvent">
