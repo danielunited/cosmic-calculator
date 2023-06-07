@@ -52,7 +52,7 @@ const today = new Date();
 const currentYear = today.getFullYear();
 
 const events = [
-  { name: "Emergence of the first galaxies", year: -13800000000 },
+  { name: "Big Bang", year: -13800000000 },
   { name: "Formation of the Milky Way galaxy", year: -13400000000 },
   { name: "Formation of the Solar System and the Sun", year: -4600000000 },
   { name: "Formation of Earth", year: -4530000000 },
@@ -69,13 +69,12 @@ const events = [
   { name: "Invention of the wheel", year: -3500 },
   { name: "Construction of Pyramids", year: -2560 },
   { name: "Establishment of the Roman Empire", year: -27 },
-  { name: "Birth of Jesus Christ", year: 0 },
+  { name: "Birth of Jesus Christ", year: -4 },
   { name: "Fall of the Roman Empire", year: 476 },
-  { name: "Peak of the Renaissance", year: 1500 },
-  { name: "Proposal of the Heliocentric Model", year: 1687 },
-  { name: "Formulation of the Three Laws of Motion", year: 1687 },
-  { name: "Invention of the Steam Engine", year: 1712 },
+  { name: "Da Vinci painting the Mona Lisa", year: 1503 },
+  { name: "Invention of the steam engine", year: 1712 },
   { name: "Industrial Revolution", year: 1760 },
+  { name: "Discovery of electricity", year: 1752 },
   { name: "First public flight", year: 1903 },
   { name: "Moon landing", year: 1969 },
   // Future events
