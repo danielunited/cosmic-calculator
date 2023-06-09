@@ -76,8 +76,8 @@ const events = [
   { name: "Fall of the Roman Empire", year: 476 },
   { name: "Da Vinci painting the Mona Lisa", year: 1503 },
   { name: "Invention of the steam engine", year: 1712 },
-  { name: "Industrial Revolution", year: 1760 },
   { name: "Discovery of electricity", year: 1752 },
+  { name: "Industrial Revolution", year: 1760 },
   { name: "First public flight", year: 1903 },
   { name: "Moon landing", year: 1969 },
   // Future events
