@@ -14,6 +14,7 @@
             :min="'1900-01-01'"
             :max="`${currentYear}-01-01`"
             required
+            autofocus
             class="w-full px-3 py-2 leading-tight text-gray-700 bg-white border border-gray-300 rounded appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
@@ -36,6 +37,7 @@
         </button>
 
         <div class="mt-4 text-lg" v-if="message" v-html="message"></div>
+        <div class="mt-2 text-base text-gray-500" v-if="message">1 second of your life would be equivalent to {{ equivalentSecond.toFixed(2) }} cosmic years.</div>
       </form>
     </div>
   </div>
@@ -47,6 +49,7 @@ import { ref } from "vue";
 const dob = ref("");
 const selectedEvent = ref("");
 const message = ref("");
+const equivalentSecond = ref(0);
 
 const today = new Date();
 const currentYear = today.getFullYear();
@@ -91,8 +94,23 @@ function calculateEvent() {
   const universeAgeInYears = 13.8 * Math.pow(10, 9);
   const eventYear = events.find((event) => event.name === selectedEvent.value).year;
   const eventYearsAgo = currentYear - eventYear;
+  const userLifeSpanInSeconds = age * 365.25 * 24 * 60 * 60;
+  equivalentSecond.value = universeAgeInYears / userLifeSpanInSeconds;
   const equivalentAgeInSeconds = ((age * eventYearsAgo) / universeAgeInYears) * 31556952;
-
+  // console.log(
+  //   "Equivalent Second: ",
+  //   equivalentSecond.value,
+  //   "Universe Age in Years: ",
+  //   universeAgeInYears,
+  //   "Event Year: ",
+  //   eventYear,
+  //   "Event Years Ago: ",
+  //   eventYearsAgo,
+  //   "User Lifespan in Seconds: ",
+  //   userLifeSpanInSeconds,
+  //   "Equivalent Age in Seconds: ",
+  //   equivalentAgeInSeconds
+  // );
   const timeUnits = ["years", "months", "days", "hours", "minutes", "seconds"];
   const timeConversions = [31556952, 2629746, 86400, 3600, 60, 1];
 
